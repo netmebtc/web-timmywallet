@@ -1,6 +1,6 @@
 # Wallet
 
-> Ekipcoin (TMY) Wallet
+> Timmycoin (TMY) Wallet
 
 Production: [wallet.timmycoin.net](https://wallet.timmycoin.net)
 
@@ -12,8 +12,8 @@ Production: [wallet.timmycoin.net](https://wallet.timmycoin.net)
     
 ##### Clone and start
 
-    git clone https://github.com/Frontekip/timmycoin.net-wallet.git
-    cd timmycoin.net-wallet
+    git clone https://github.com/tmycoin/web-timmywallet.git
+    cd web-timmywallet
     meteor npm install
     
 ##### Set RPC AUTH
