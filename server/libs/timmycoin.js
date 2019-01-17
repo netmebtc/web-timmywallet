@@ -102,12 +102,12 @@ export class Rpc {
   }
 }
 
-Ekipcoin = new Rpc({
+Timmycoin = new Rpc({
   bindAddress: RPC_URL
 });
 
 /*
-Ekipcoin.sendTransaction('2WGJ17mKZ6nToERzyhEV1XQ477eEbQKizECq1iVLxqFEQXhZV7iViDUV35jDvAumEs2RzSKZzfvKSfcUVLFHkRxk8WNGZwX',
+Timmycoin.sendTransaction('2WGJ17mKZ6nToERzyhEV1XQ477eEbQKizECq1iVLxqFEQXhZV7iViDUV35jDvAumEs2RzSKZzfvKSfcUVLFHkRxk8WNGZwX',
 '2UJAz1V6kAV9mJwKW2EjW3SzEUT2eED8u6XC2yoZBi9XGfjwqBEK8eAV35jDvAumEs2RzSKZzfvKSfcUVLFHkRxk8VGaGzN', 5000000000).then((data) => {
   console.log(data);
 })

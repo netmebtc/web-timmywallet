@@ -1,5 +1,5 @@
 Wallets.after.insert(function(userId, doc) {
-  Ekipcoin.createAddresses().then(({ data: { result } }) => {
+  Timmycoin.createAddresses().then(({ data: { result } }) => {
     return Wallets.update(doc._id, {
       $set: {
         address: result.address
@@ -9,7 +9,7 @@ Wallets.after.insert(function(userId, doc) {
 });
 
 Wallets.after.remove(function(userId, doc) {
-  Ekipcoin.deleteAddress(doc.address).then(({ data }) => {
+  Timmycoin.deleteAddress(doc.address).then(({ data }) => {
     console.log(data);
   })
 });

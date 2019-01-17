@@ -10,7 +10,7 @@ Meteor.methods({
     if (wallet) {
       const future = new Future();
 
-      Ekipcoin.getBalance(wallet.address).then(({ data: { result } }) => {
+      Timmycoin.getBalance(wallet.address).then(({ data: { result } }) => {
         future.return(result)
       })
 
@@ -27,10 +27,10 @@ Meteor.methods({
     if (wallet) {
       const future = new Future();
 
-      Ekipcoin.getStatus().then(({ data: { result } }) => {
+      Timmycoin.getStatus().then(({ data: { result } }) => {
         const { blockCount } = result;
 
-        Ekipcoin.getTransactions(blockCount).then(({ data: { result: { items } } }) => {
+        Timmycoin.getTransactions(blockCount).then(({ data: { result: { items } } }) => {
           let out = [];
 
           items.forEach(({ blockHash, transactions }) => {
