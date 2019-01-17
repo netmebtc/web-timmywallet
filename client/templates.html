@@ -1,0 +1,187 @@
+<head>
+  <title>Ekipcoin Wallet (TMY)</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+</head>
+
+<template name="layout">
+  <div class="overlay"></div>
+  <div id="Surface">
+    {{ # if currentUser }}
+      <header>
+        {{> yield region='header'}}
+      </header>
+      <div class="content">
+        {{> yield }}
+      </div>
+      <footer>
+        {{> yield region='footer'}}
+      </footer>
+    {{ else }}
+      <div class="row center-xs">
+        <div class="col-xs-6">
+          <div class="box">
+            {{> yield }}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</template>
+
+<template name="header">
+  <div class="row end-xs">
+    <div class="col-xs-3">
+        <div class="box">
+          {{> avatar user=currentUser shape="circle" }}
+          <div>
+            {{ currentUser.email }} <a href="#" class="logout">logout</a>
+          </div>
+        </div>
+    </div>
+  </div>
+</template>
+
+<template name="footer">
+  <div class="row center-xs">
+    <div class="col-xs-6">
+      <div class="box text-left">
+        wallet.timmycoin.net. All rights reserved | <a href="https://github.com/tmycoin/web-timmywallet" target="_blank">web-wallet (0.0.3)</a>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="box text-right">
+        @2018 <a href="https://www.timmycoin.net" target="_blank">timmycoin.net</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="dashboard">
+  <div class="wallet" style='height: {{ minus height 150 }}px'>
+    {{ > wallets height=height walletId=wallet._id }}
+    {{ > transactions height=height walletId=wallet._id }}
+  </div>
+</template>
+
+<template name="transactions">
+  <div class="activity">
+    <div class="content nano" style='height: {{ minus height 150 }}px'>
+      <div class="nano-content">
+        {{# each transactions }}
+          <div class="transaction {{# if isEqual transfer.type 0 }}plus{{/if}}{{# if isEqual transfer.type 2 }}minus{{/if}}">
+            <div class="icon-type">
+              <div class="icon">
+                {{# if isEqual transfer.type 0 }}<i class="fa fa-plus" aria-hidden="true"></i>{{/if}}
+                {{# if isEqual transfer.type 2 }}<i class="fa fa-minus" aria-hidden="true"></i>{{/if}}
+              </div>
+            </div>
+            <div class="description">
+              <div class="info">
+                <span class="date">{{ formatTimestamp transaction.timestamp }}</span>
+                <a href="https://explorer.timmycoin.net/transactions/{{ transaction.transactionHash }}">
+                  {{ transaction.transactionHash }}
+                </a>
+                <div>
+                  <span>
+                    Confirmations <b>{{transaction.confirmations}}</b>
+                  </span>
+                </div>
+              </div>
+              <div class="price">
+                {{ getReadableCoins transfer.amount }}
+              </div>
+            </div>
+          </div>
+        {{ else }}
+          <div class="text-center mt-30">
+            <span>Transactions not found!</span>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="wallets">
+  <div class="cards">
+    <header>
+      <h2>My Wallets</h2>
+      <a class="add-wallet-btn add-wallet" href="#"></a>
+    </header>
+    <div class="nano" style='height: {{ minus height 270 }}px'>
+      <div class="nano-content">
+        {{# each wallets }}
+          {{ > walletItem }}
+        {{ else }}
+          <div class="text-center">
+            <span class="bt-padding">Wallet is empty.</span>
+            <a class="btn btn-success add-wallet">Create New Wallet</a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="walletItem">
+  <div class="card wallet-item {{# if isEqual ../walletId _id }} active{{/if}}">
+    <a href="/wallets/{{ _id }}">
+      <div class="row middle-xs">
+        <div class="col-lg-9">
+          <div class="name">
+            {{ name }}
+          </div>
+          <div class="number">
+            {{ address }}
+          </div>
+          <div class="livestamp">
+            Created At {{ livestamp createdAt }}
+          </div>
+        </div>
+        <div class="col-lg-3 text-right">
+          <div>
+            <p class="label">Available</p>
+            <div class="expiration balance">
+              {{ getReadableCoins getBalance.availableBalance }}
+            </div>
+          </div>
+          <div>
+            <p class="label">Locked</p>
+            <div class="expiration balance">
+              {{ getReadableCoins getBalance.lockedAmount }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    {{# if isEqual ../walletId _id }}
+      <div class="text-right mt-20">
+        <a class="btn btn-success">Send</a>
+        <a class="btn btn-warning wallet" data-clipboard-text="{{ address }}">Copy</a>
+        <a class="btn btn-danger">Remove</a>
+      </div>
+    {{/if}}
+  </div>
+</template>
+
+<template name="createWalletModal">
+  <div class="card-form">
+    <header>
+      <h2>
+        <div class="type">Create</div>
+        <span>New wallet</span>
+      </h2>
+      <div class="a close js-close" href="#"></div>
+    </header>
+    <div class="form">
+      {{# autoForm collection="Wallets" id="CreateNewWalletForm" type="insert"}}
+        {{> afQuickField name='name'}}
+        <footer class="footer mt-50">
+          <button class="button">Create</button>
+        </footer>
+      {{/autoForm}}
+    </div>
+  </div>
+</template>
